@@ -1,11 +1,22 @@
+var cities = [
+  { name: 'Medellin', tagline: 'Beautiful mountainous city.' },
+  { name: 'Bogota', tagline: 'The capitol.' },
+  { name: 'Barranquilla', tagline: 'The costal city.' }
+];
+
 var App = React.createClass({
   render: function() {
-    return <div>
-      <h1>Hello {this.props.city}</h1>
-      <span>{this.props.tagline}</span>
-    </div>
+    var places = this.props.cities.map(function(city){
+      return <div>
+        <h1>{city.name}</h1>
+        <span>{city.tagline}</span>
+        <hr/>
+      </div>
+    });
+
+    return <div>{places}</div>
   }
 });
 
-React.render(<App city='Bogota' tagline='Beautiful mountainous city.'/>, document.body);
+React.render(<App cities={cities}/>, document.body);
 
