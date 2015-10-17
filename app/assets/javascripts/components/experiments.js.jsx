@@ -4,25 +4,37 @@ var cities = [
   { name: 'Barranquilla', tagline: 'The costal city.', rainy: false }
 ];
 
+var CityContainer = React.createClass({
+  render: function(){
+    return <div>{this.props.children}</div>
+  }
+});
+
+CityContainer.City = React.createClass({
+  render: function(){
+    var rainyState;
+    if(this.props.city.rainy){
+      rainyState = <span> And rainy too.</span>
+    }else{
+      rainyState = <span> Not rainy.</span>
+    }
+
+    return <div>
+      <h1 className={this.props.city.rainy ? 'rainy' : ''}>{this.props.city.name}</h1>
+      <span>{this.props.city.tagline}</span>
+      {rainyState}
+      <hr/>
+    </div>
+  }
+});
+
 var App = React.createClass({
   render: function() {
     var places = this.props.cities.map(function(city){
-      var rainyState;
-      if(city.rainy){
-        rainyState = <span> And rainy too.</span>
-      }else{
-        rainyState = <span> Not rainy.</span>
-      }
-
-      return <div>
-        <h1 className={city.rainy ? 'rainy' : ''}>{city.name}</h1>
-        <span>{city.tagline}</span>
-        {rainyState}
-        <hr/>
-      </div>
+      return <CityContainer.City city={city}/>
     });
 
-    return <div>{places}</div>
+    return <CityContainer>{places}</CityContainer>
   }
 });
 
