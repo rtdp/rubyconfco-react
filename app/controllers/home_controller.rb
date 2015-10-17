@@ -1,7 +1,8 @@
 class HomeController < ApplicationController
 
   def index
-    render component: 'CityContainer', props: { cities: get_cities }, tag: 'div#myContainer'
+    #render component: 'CityContainer', props: { cities: get_cities }, tag: 'div#myContainer'
+    @cities = get_cities
   end
 
   private
