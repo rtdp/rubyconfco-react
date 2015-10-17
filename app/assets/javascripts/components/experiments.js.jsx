@@ -1,11 +1,11 @@
 var App = React.createClass({
   render: function() {
     return <div>
-      <h1 style={{color:'blue', fontStyle: 'italic'}}>Hello Medellin</h1>
-      <span className='tagline'>Beautiful mountainous city.</span>
+      <h1>Hello {this.props.city}</h1>
+      <span>{this.props.tagline}</span>
     </div>
   }
 });
 
-React.render(<App/>, document.body);
+React.render(<App city='Bogota' tagline='Beautiful mountainous city.'/>, document.body);
 
