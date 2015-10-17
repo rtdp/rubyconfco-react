@@ -1,3 +1,231 @@
 
-# React Hello World
+=====================
+# React Hello World -
 React.render(React.createElement('h1', null, 'Hello Medellin'), document.body);
+
+
+=====================
+# React component -
+var App = React.createClass({
+  render: function() {
+    return React.createElement('div',
+      null,
+      React.createElement('h1', null, 'Hello Medellin'),
+      React.createElement('span', null, 'Beautiful mountainous city.'))
+  }
+});
+
+React.render(React.createElement(App, null), document.body);
+
+
+=====================
+# JSX -
+
+var App = React.createClass({
+  render: function() {
+    return <div>
+      <h1>Hello Medellin</h1>
+      <span>Beautiful mountainous city.</span>
+    </div>
+  }
+});
+
+React.render(<App/>, document.body);
+
+
+======================
+# Classes and styles for JSX
+
+var App = React.createClass({
+  render: function() {
+    return <div>
+      <h1 style={{color:'blue', fontStyle: 'italic'}}>Hello Medellin</h1>
+      <span className='tagline'>Beautiful mountainous city.</span>
+    </div>
+  }
+});
+
+React.render(<App/>, document.body);
+
+
+======================
+# Props
+
+var App = React.createClass({
+  render: function() {
+    return <div>
+      <h1>Hello {this.props.city}</h1>
+      <span>{this.props.tagline}</span>
+    </div>
+  }
+});
+
+React.render(<App city='Bogota' tagline='Beautiful mountainous city.'/>, document.body);
+
+======================
+# Iterators
+
+var cities = [
+  { name: 'Medellin', tagline: 'Beautiful mountainous city.' },
+  { name: 'Bogota', tagline: 'The capitol.' },
+  { name: 'Barranquilla', tagline: 'The costal city.' }
+];
+
+var App = React.createClass({
+  render: function() {
+    var places = this.props.cities.map(function(city){
+      return <div>
+        <h1>{city.name}</h1>
+        <span>{city.tagline}</span>
+        <hr/>
+      </div>
+    });
+
+    return <div>{places}</div>
+  }
+});
+
+React.render(<App cities={cities}/>, document.body);
+
+======================
+# JSX if-else and tertiary operators
+
+var cities = [
+  { name: 'Medellin', tagline: 'Beautiful mountainous city.', rainy: true },
+  { name: 'Bogota', tagline: 'The capitol.', rainy: false },
+  { name: 'Barranquilla', tagline: 'The costal city.', rainy: false }
+];
+
+var App = React.createClass({
+  render: function() {
+    var places = this.props.cities.map(function(city){
+      var rainyState;
+      if(city.rainy){
+        rainyState = <span> And rainy too.</span>
+      }else{
+        rainyState = <span> Not rainy.</span>
+      }
+
+      return <div>
+        <h1 className={city.rainy ? 'rainy' : ''}>{city.name}</h1>
+        <span>{city.tagline}</span>
+        {rainyState}
+        <hr/>
+      </div>
+    });
+
+    return <div>{places}</div>
+ }
+});
+
+React.render(<App cities={cities}/>, document.body);
+
+======================
+# React with Multiple components
+var cities = [
+  { name: 'Medellin', tagline: 'Beautiful mountainous city.', rainy: true },
+  { name: 'Bogota', tagline: 'The capitol.', rainy: false },
+  { name: 'Barranquilla', tagline: 'The costal city.', rainy: false }
+];
+
+var CityContainer = React.createClass({
+  render: function(){
+    return <div>{this.props.children}</div>
+  }
+});
+
+CityContainer.City = React.createClass({
+  render: function(){
+    var rainyState;
+    if(this.props.city.rainy){
+      rainyState = <span> And rainy too.</span>
+    }else{
+      rainyState = <span> Not rainy.</span>
+    }
+
+    return <div>
+      <h1 className={this.props.city.rainy ? 'rainy' : ''}>{this.props.city.name}</h1>
+      <span>{this.props.city.tagline}</span>
+      {rainyState}
+      <hr/>
+    </div>
+  }
+});
+
+var App = React.createClass({
+  render: function() {
+    var places = this.props.cities.map(function(city){
+      return <CityContainer.City city={city}/>
+    });
+
+    return <CityContainer>{places}</CityContainer>
+  }
+});
+
+React.render(<App cities={cities}/>, document.body);
+
+
+========================
+# React State
+
+var cities = [
+  { name: 'Medellin', tagline: 'Beautiful mountainous city.', rainy: true },
+  { name: 'Bogota', tagline: 'The capitol.', rainy: false },
+  { name: 'Barranquilla', tagline: 'The costal city.', rainy: false }
+];
+
+var CityContainer = React.createClass({
+  render: function(){
+    return <div>{this.props.children}</div>
+  }
+});
+
+CityContainer.CityCheckbox = React.createClass({
+  getInitialState: function(){
+    return {
+      checked: false
+    }
+  },
+
+  handleChange: function(event){
+    this.setState({checked: !this.state.checked});
+    console.log(this.state.checked);
+  },
+
+  render: function(){
+    return <span><input type='checkbox' value={this.state.checked} onChange={this.handleChange}/></span>
+  }
+});
+
+CityContainer.City = React.createClass({
+  render: function(){
+    var rainyState;
+    if(this.props.city.rainy){
+      rainyState = <span> And rainy too.</span>
+    }else{
+      rainyState = <span> Not rainy.</span>
+    }
+
+    return <div>
+      <CityContainer.CityCheckbox/>
+      <h1 className={this.props.city.rainy ? 'rainy' : ''}>{this.props.city.name}</h1>
+      <span>{this.props.city.tagline}</span>
+      {rainyState}
+      <hr/>
+    </div>
+  }
+});
+
+var App = React.createClass({
+  render: function() {
+    var places = this.props.cities.map(function(city){
+      return <CityContainer.City city={city}/>
+    });
+
+    return <CityContainer>{places}</CityContainer>
+  }
+});
+
+React.render(<App cities={cities}/>, document.body);
+
+
