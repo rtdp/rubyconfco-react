@@ -1,10 +1,11 @@
 var App = React.createClass({
   render: function() {
-    return React.createElement('div',
-      null,
-      React.createElement('h1', null, 'Hello Medellin'),
-      React.createElement('span', null, 'Beautiful mountainous city.'))
+    return <div>
+      <h1>Hello Medellin</h1>
+      <span>Beautiful mountainous city.</span>
+    </div>
   }
 });
 
-React.render(React.createElement(App, null), document.body);
+React.render(<App/>, document.body);
+
