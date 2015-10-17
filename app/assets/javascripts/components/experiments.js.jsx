@@ -10,6 +10,23 @@ var CityContainer = React.createClass({
   }
 });
 
+CityContainer.CityCheckbox = React.createClass({
+  getInitialState: function(){
+    return {
+      checked: false
+    }
+  },
+
+  handleChange: function(event){
+    this.setState({checked: !this.state.checked});
+    console.log(this.state.checked);
+  },
+
+  render: function(){
+    return <span><input type='checkbox' value={this.state.checked} onChange={this.handleChange}/></span>
+  }
+});
+
 CityContainer.City = React.createClass({
   render: function(){
     var rainyState;
@@ -20,6 +37,7 @@ CityContainer.City = React.createClass({
     }
 
     return <div>
+      <CityContainer.CityCheckbox/>
       <h1 className={this.props.city.rainy ? 'rainy' : ''}>{this.props.city.name}</h1>
       <span>{this.props.city.tagline}</span>
       {rainyState}
@@ -39,4 +57,5 @@ var App = React.createClass({
 });
 
 React.render(<App cities={cities}/>, document.body);
+
 
