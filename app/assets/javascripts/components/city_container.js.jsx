@@ -16,5 +16,5 @@ var CityContainer = React.createClass({
 
 });
 
-React.render(<CityContainer cities={cities}/>, document.body);
+//React.render(<CityContainer cities={cities}/>, document.body);
 
